@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container">
+    <h1>出席情報を更新</h1>
+    <form class="mb-4" action="/attendance" method="POST">
+        <b>RaspberryPiから出席情報を取得します</b>
+        <br>
+        <input class="btn btn-primary" type="submit" style="width: 150px;" value="更新">
+        <script>
+            if ('{{ error }}' != '') {
+                alert('[取得に失敗しました]\n{{ error }}');
+            }
+        </script>
+    </form>
+    <h1>活動日</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>日時</th>
+                <th>出席者一覧</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for onDay in onDays %}
+                <tr>
+                    <b><td id='{{ onDay }}'>
+                        <script>
+                            var wDay = new Date('{{ onDay }}').getDay();
+                            if (wDay == 5 || wDay == 3) {
+                                document.getElementById('{{ onDay }}').innerHTML += '<div style="background-color: lightblue;">{{ onDay }}</div>';
+                            } else {
+                                document.getElementById('{{ onDay }}').innerHTML += '<div>{{ onDay }}</div>';
+                            }
+                        </script>
+
+                    </td></b>
+                    <td><a class="btn btn-success btn-sm" href="attendance/date/{{ onDay }}" role="button">出席者一覧</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form class="mb-4" action="/attendance/other" method="POST">
+        <div class="form-group">
+            <label for="other">上記以外の日時</label>
+            <input type="text" class="form-control" name="other" style="width: 150px;" placeholder="例:2020-01-01">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary" style="width: 150px;">送信</button>
+    </form>
+</div>
+
+{% endblock %}

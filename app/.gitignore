@@ -1,0 +1,5 @@
+*.db
+*.json
+*.pyc
+attendance_key
+attendance_key.pub

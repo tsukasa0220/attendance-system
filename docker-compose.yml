@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  flask:
+    build:
+      context: .
+    container_name: attendance-system
+    volumes:
+      - ./app:/app
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.attendance-system.rule=Host(`rin.eng.kagawa-u.ac.jp`)&&PathPrefix(`/attendance`)"
+      - "traefik.http.services.attendance-system.loadbalancer.server.port=5000"
+      - "traefik.http.routers.attendance-system.entrypoints=websecure"
+      - "traefik.http.routers.attendance-system.tls.certresolver=myresolver"
+      - "traefik.http.routers.attendance-system.middlewares=kagawaUniv-secure-member@file"
+      
+networks:
+  traefik:
+    external: true
