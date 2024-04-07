@@ -97,7 +97,7 @@ def date(currentDate_str):
         tmp_name = extrack_name(my_names, post)
         if tmp_name != 0:
             my_names.append(tmp_name)
-    posts = session1.query(AttendanceDB).order_by(AttendanceDB.date).filter(AttendanceDB.date >= currentDate, AttendanceDB.date < currentDate+timedelta(days=1)).all()
+    posts = session1.query(AttendanceDB).order_by(AttendanceDB.date.desc()).filter(AttendanceDB.date >= currentDate, AttendanceDB.date < currentDate+timedelta(days=1)).all()
     return render_template('date.html', posts=posts, currentDate=currentDate_str, posts2=posts2, my_names=my_names)
 
 # URL(/user/<指定した学籍番号>)
